@@ -1,0 +1,17 @@
+{
+  "name": "brainrot-factory",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Brainrot Factory: Tap & Collect — HTML5 idle/clicker for Yandex Games",
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/dev-server.js",
+    "build": "node tools/build.js",
+    "test": "node --test tests/*.test.js",
+    "zip": "node tools/build.js && cd dist && zip -qr ../brainrot-factory.zip ."
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "jsdom": "^24.1.3"
+  }
+}
