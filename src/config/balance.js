@@ -20,6 +20,13 @@ export const BALANCE = {
   autoMilestoneEvery: 25,
   autoMilestoneMult: 2,
 
+  // ---------- LUCK (третий апгрейд-трек: шанс крита) — открывается после 1-го prestige ----------
+  luckUnlockPrestige: 1,
+  luckPerLevel: 0.005,          // +0.5% шанса крита за уровень
+  luckMaxLevel: 30,             // cap: 5% + 15% = 20%
+  luckUpgradeCostBase: 500,
+  luckUpgradeCostGrowth: 1.35,
+
   // ---------- COMBO ----------
   comboWindowMs: 900,       // окно между тапами для роста комбо
   comboDecayMs: 1200,       // через сколько без тапов комбо начинает падать
@@ -68,11 +75,11 @@ export const BALANCE = {
   prestigePointsDivisor: 20_000_000,
   prestigeMultPerPoint: 0.25,     // +25% за 1 PP (постоянно)
   prestigeZones: [                 // зона по числу prestige
-    { at: 0, name: 'Гараж',            emoji: '🏚️' },
-    { at: 1, name: 'Подвал Мемов',     emoji: '🕳️' },
-    { at: 3, name: 'Фабрика',          emoji: '🏭' },
-    { at: 6, name: 'Мем-Лаборатория',  emoji: '🧪' },
-    { at: 10, name: 'Космос Брейнрота', emoji: '🚀' },
+    { at: 0, name: 'Гараж',            emoji: '🏚️', bonus: {} },
+    { at: 1, name: 'Подвал Мемов',     emoji: '🕳️', bonus: { offlineEfficiency: 0.7 } },
+    { at: 3, name: 'Фабрика',          emoji: '🏭', bonus: { offlineEfficiency: 0.8, autoMult: 1.25 } },
+    { at: 6, name: 'Мем-Лаборатория',  emoji: '🧪', bonus: { offlineEfficiency: 0.9, autoMult: 1.5, critMult: 1.5 } },
+    { at: 10, name: 'Космос Брейнрота', emoji: '🚀', bonus: { offlineEfficiency: 1.0, autoMult: 2, critMult: 2, offlineCapSec: 12 * 3600 } },
   ],
 
   // ---------- OFFLINE ----------

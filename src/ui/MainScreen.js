@@ -7,6 +7,8 @@ import { BALANCE, rarityIndex } from '../config/balance.js';
 import { coinsPerSecond, coinsPerTap, currentZone, prestigePreview } from '../game/Economy.js';
 import { Particles } from './Particles.js';
 import { TimeManager } from '../core/TimeManager.js';
+import { charVisual } from './Art.js';
+import { critChance } from '../game/Economy.js';
 
 export class MainScreen {
   constructor(ui) { this.ui = ui; this.gm = ui.gm; this.el = h('div', { class: 'screen active', id: 'scr-home' }); this.build(); }
@@ -30,7 +32,8 @@ export class MainScreen {
 
     this.upgTap = h('button', { class: 'upg', onClick: () => this.buy('tap') });
     this.upgAuto = h('button', { class: 'upg', onClick: () => this.buy('auto') });
-    this.upgrades = h('div', { class: 'upgrades' }, this.upgTap, this.upgAuto);
+    this.upgLuck = h('button', { class: 'upg', onClick: () => this.buy('luck') });
+    this.upgrades = h('div', { class: 'upgrades' }, this.upgTap, this.upgAuto, this.upgLuck);
 
     this.qaChest = h('button', { class: 'qa', onClick: () => this.ui.go('chest') }, h('span', {}, '🎁'), t('chest'));
     this.qaColl = h('button', { class: 'qa', onClick: () => this.ui.go('collection') }, h('span', {}, '📒'), t('collection'));
@@ -100,6 +103,8 @@ export class MainScreen {
     };
     fill(this.upgTap, 'tap', '👆 ' + t('power'), s.tapLevel, t('upgrade'));
     fill(this.upgAuto, 'auto', '⚙️ ' + t('auto'), s.autoLevel, t('upgrade'));
+    const luckOn = u.luckAvailable(); this.upgrades.classList.toggle('three', luckOn); this.upgLuck.style.display = luckOn ? '' : 'none';
+    if (luckOn) { const maxed = s.luckLevel >= BALANCE.luckMaxLevel; fill(this.upgLuck, 'luck', '🍀 ' + t('luck'), s.luckLevel, `${t('crit')} ${(critChance(s) * 100).toFixed(1)}%`); if (maxed) { this.upgLuck.classList.remove('can'); this.upgLuck.querySelector('.c').textContent = 'MAX'; } }
   }
   renderBoosts() {
     const s = this.gm.state, now = this.gm.now(); clear(this.boostsEl);
@@ -108,7 +113,7 @@ export class MainScreen {
   render() {
     const ev = this.gm.events.status(); this.qaSocial.querySelector('.badge')?.remove(); if (ev) this.qaSocial.append(h('i', { class: 'badge' }, ev.ev.emoji));
     const s = this.gm.state, c = CHARACTER_MAP[s.activeCharacter] || CHARACTER_MAP[BALANCE.starterCharacterId], z = currentZone(s);
-    this.charBtn.className = 'charBtn ' + c.rarity; this.charBtn.textContent = c.emoji;
+    this.charBtn.className = 'charBtn ' + c.rarity; clear(this.charBtn).append(charVisual(c));
     this.charName.textContent = tr(c.name) + (s.characters[c.id] > 1 ? ` ★${s.characters[c.id]}` : '');
     this.zoneEl.textContent = `${z.emoji} ${t('zone')}: ${z.name}` + (s.prestige.count ? ` · ⭐${s.prestige.points} (x${(1 + s.prestige.points * BALANCE.prestigeMultPerPoint).toFixed(1)})` : '');
     this.renderUpgrades(); this.renderBoosts(); this.ui.renderTop();

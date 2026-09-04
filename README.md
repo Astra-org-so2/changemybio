@@ -55,5 +55,8 @@ npm run zip        # → brainrot-factory.zip для загрузки в Кон�
 ## Локальный запуск с реальным SDK
 Следуй официальной инструкции «Локальный запуск» (проксирование `/sdk.js` через `@yandex-games/sdk-dev-proxy`) — тогда вместо MockPlatform будет реальный `YaGames`.
 
+## Арт
+Персонажи грузятся лениво из `assets/characters/<id>.webp` с фолбэком на emoji (`src/ui/Art.js`). Пайплайн: `tools/art-pipeline.md`. Иконка-концепт: `assets/store/icon_512.png`.
+
 ## Баланс
 Все коэффициенты — в `src/config/balance.js`. После правок запускай `node tools/sweep.mjs v`: смотри `firstChest` (цель 40–60 с), `prestigeAt` (цель 25–35 мин), `maxGap` (максимальная пауза между апгрейдами, цель < 180 с).

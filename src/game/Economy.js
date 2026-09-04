@@ -53,7 +53,7 @@ export function coinsPerSecond(state, now) {
   const cm = characterMultipliers(state);
   const coll = 1 + collectionProgress(state).bonus;
   const auto = state.autoLevel > 0 ? B.incomeBase * state.autoLevel * Math.pow(B.incomeGrowth, state.autoLevel) * autoMilestoneMult(state.autoLevel) : 0;
-  return (auto + cm.passive) * cm.income * prestigeMultiplier(state) * coll * activeBoostMult(state, now);
+  return (auto * (zoneBonus(state).autoMult || 1) + cm.passive) * cm.income * prestigeMultiplier(state) * coll * activeBoostMult(state, now);
 }
 
 export const tapUpgradeCost = (lvl) => Math.floor(B.tapUpgradeCostBase * Math.pow(B.tapUpgradeCostGrowth, lvl) * AB.num('upgrade_cost_mult'));
@@ -71,6 +71,10 @@ export function prestigePreview(state) {
   const points = can ? Math.floor(Math.sqrt(earned / B.prestigePointsDivisor)) : 0;
   return { can, points, threshold: B.prestigeThreshold, earned, newMult: 1 + (state.prestige.points + points) * B.prestigeMultPerPoint, curMult: prestigeMultiplier(state) };
 }
+
+export const luckUpgradeCost = (lvl) => Math.floor(B.luckUpgradeCostBase * Math.pow(B.luckUpgradeCostGrowth, lvl) * AB.num('upgrade_cost_mult'));
+export const critChance = (state) => B.critChance + state.luckLevel * B.luckPerLevel;
+export const zoneBonus = (state) => currentZone(state).bonus || {};
 
 export function currentZone(state) {
   let z = B.prestigeZones[0];

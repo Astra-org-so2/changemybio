@@ -79,7 +79,7 @@ export class SaveManager {
   _sanitize(s, now) {
     const num = (v, max = 1e300) => (Number.isFinite(v) && v >= 0 ? Math.min(v, max) : 0);
     s.coins = num(s.coins); s.gems = num(s.gems, 1e9); s.totalEarned = num(s.totalEarned); s.runEarned = num(s.runEarned);
-    s.tapLevel = Math.floor(num(s.tapLevel, 100000)); s.autoLevel = Math.floor(num(s.autoLevel, 100000));
+    s.tapLevel = Math.floor(num(s.tapLevel, 100000)); s.autoLevel = Math.floor(num(s.autoLevel, 100000)); s.luckLevel = Math.floor(num(s.luckLevel, BALANCE.luckMaxLevel));
     s.prestige.count = Math.floor(num(s.prestige.count, 100000)); s.prestige.points = Math.floor(num(s.prestige.points, 1e7));
     if (s.lastSeen > now) s.lastSeen = now;           // время из будущего
     if (s.createdAt > now) s.createdAt = now;

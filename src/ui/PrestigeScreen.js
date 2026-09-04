@@ -20,7 +20,8 @@ export class PrestigeScreen {
         h('div', { class: 'small', style: 'color:var(--green)' }, '✅ ' + t('prestigeKeep')),
         h('div', { class: 'small', style: 'color:var(--accent2)' }, '🔄 ' + t('prestigeLose')),
         h('button', { class: 'btn', disabled: !p.can || p.points <= 0, onClick: () => this.confirm(p) }, t('prestigeDo')))));
-    root.append(h('div', { class: 'card' }, h('b', {}, `${z.emoji} ${t('zone')}: ${z.name}`), nextZone ? h('div', { class: 'muted' }, `→ ${nextZone.emoji} ${nextZone.name} (${nextZone.at} ⭐)`) : null,
+    const zb = (b) => [b.offlineEfficiency && `${t('zbOffline')} ${Math.round(b.offlineEfficiency * 100)}%`, b.autoMult && `${t('zbAuto')} x${b.autoMult}`, b.critMult && `${t('zbCrit')} x${b.critMult}`, b.offlineCapSec && `${t('zbCap')} ${b.offlineCapSec / 3600}h`].filter(Boolean).join(' · ') || '—';
+    root.append(h('div', { class: 'card' }, h('b', {}, `${z.emoji} ${t('zone')}: ${z.name}`), h('div', { class: 'small', style: 'color:var(--green)' }, `${t('zoneBonus')}: ${zb(z.bonus || {})}`), nextZone ? h('div', { class: 'muted' }, `→ ${nextZone.emoji} ${nextZone.name} (${nextZone.at} ⭐): ${zb(nextZone.bonus || {})}`) : null,
       h('div', { class: 'muted', style: 'margin-top:6px' }, `${t('prestiges')}: ${s.prestige.count} · ⭐ ${s.prestige.points}`)));
   }
   confirm(p) {

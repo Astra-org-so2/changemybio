@@ -13,6 +13,7 @@ export function createDefaultState(now) {
     runEarned: 0,            // за текущий забег (для prestige)
     tapLevel: 0,
     autoLevel: 0,
+    luckLevel: 0,
     characters: { [BALANCE.starterCharacterId]: 1 }, // id -> level (1 = получен)
     activeCharacter: BALANCE.starterCharacterId,
     prestige: { count: 0, points: 0 },

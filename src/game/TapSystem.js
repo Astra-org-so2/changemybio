@@ -1,6 +1,6 @@
 import { BALANCE } from '../config/balance.js';
 import { bus } from '../core/EventBus.js';
-import { coinsPerTap } from './Economy.js';
+import { coinsPerTap, critChance, zoneBonus } from './Economy.js';
 
 export class TapSystem {
   constructor(gm) { this.gm = gm; this.combo = 0; this.lastTapAt = 0; }
@@ -24,7 +24,8 @@ export class TapSystem {
     const r = Math.random();
     let critType = null, critMult = 1;
     if (r < BALANCE.superCritChance * luck) { critType = 'super'; critMult = BALANCE.superCritMult; }
-    else if (r < BALANCE.critChance * luck) { critType = 'crit'; critMult = BALANCE.critMult; }
+    else if (r < critChance(s) * luck) { critType = 'crit'; critMult = BALANCE.critMult; }
+    if (critType) critMult *= zoneBonus(s).critMult || 1;
 
     const amount = coinsPerTap(s, now) * this.comboMult * critMult;
     this.gm.addCoins(amount, 'tap');

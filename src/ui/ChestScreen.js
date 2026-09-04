@@ -4,6 +4,7 @@ import { fmt, pct } from '../core/format.js';
 import { BALANCE, RARITY, rarityIndex } from '../config/balance.js';
 import { TimeManager } from '../core/TimeManager.js';
 import { bus } from '../core/EventBus.js';
+import { charVisual } from './Art.js';
 
 const ICON = { basic: '📦', rare: '🎁', epic: '💎', legendary: '👑' };
 const NAME = { basic: { ru: 'Обычный сундук', en: 'Basic Chest' }, rare: { ru: 'Редкий сундук', en: 'Rare Chest' }, epic: { ru: 'Эпический сундук', en: 'Epic Chest' }, legendary: { ru: 'Легендарный сундук', en: 'Legendary Chest' } };
@@ -43,7 +44,7 @@ export class ChestScreen {
     this.gm.monetization.blockAds(ri >= 2 ? 20_000 : 5_000); // никакой рекламы поверх редкого дропа
     const box = h('div', { class: 'box glow-' + r.rarity },
       h('div', { class: 'rar r-' + r.rarity }, t('rarity')[r.rarity] + (r.pityHit ? ' · ' + t('pity') : '')),
-      h('div', { class: 'reveal' }, r.character.emoji),
+      h('div', { class: 'reveal' }, charVisual(r.character)),
       h('h2', {}, tr(r.character.name)),
       r.isNew ? h('span', { class: 'newTag' }, t('newChar')) : h('div', { class: 'muted' }, `${t('dup')} ★${r.level}` + (r.gems ? ` · +${r.gems} 💎` : '')),
       h('div', { class: 'muted', style: 'margin-top:6px' }, tr(r.character.description)),

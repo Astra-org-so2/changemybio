@@ -1,5 +1,5 @@
 import { BALANCE } from '../config/balance.js';
-import { coinsPerSecond } from './Economy.js';
+import { coinsPerSecond, zoneBonus } from './Economy.js';
 
 export class OfflineSystem {
   constructor(gm) { this.gm = gm; }
@@ -7,13 +7,14 @@ export class OfflineSystem {
   compute(state, now) {
     const away = Math.max(0, (now - (state.lastSeen || now)) / 1000); // отрицательное время → 0
     if (away < BALANCE.offlineMinSec) return null;
-    const sec = Math.min(away, BALANCE.offlineCapSec);
+    const zb = zoneBonus(state), capSec = zb.offlineCapSec || BALANCE.offlineCapSec, eff = zb.offlineEfficiency || BALANCE.offlineEfficiency;
+    const sec = Math.min(away, capSec);
     const cps = coinsPerSecond(state, now);
     if (cps <= 0) return null;
-    let coins = cps * sec * BALANCE.offlineEfficiency;
-    const cap = cps * BALANCE.offlineCapSec * BALANCE.offlineEfficiency * BALANCE.maxOfflineJumpMult;
+    let coins = cps * sec * eff;
+    const cap = cps * capSec * eff * BALANCE.maxOfflineJumpMult;
     coins = Math.min(coins, cap);
-    return { coins: Math.floor(coins), seconds: sec, capped: away > BALANCE.offlineCapSec };
+    return { coins: Math.floor(coins), seconds: sec, capped: away > capSec, capSec };
   }
   claim(preview, mult = 1) {
     const coins = Math.floor(preview.coins * mult);

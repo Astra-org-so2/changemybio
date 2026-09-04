@@ -2,6 +2,7 @@ import { h, clear } from './dom.js';
 import { t, tr } from '../config/i18n.js';
 import { fmt, pct } from '../core/format.js';
 import { BALANCE } from '../config/balance.js';
+import { charVisual } from './Art.js';
 
 export class CollectionScreen {
   constructor(ui) { this.ui = ui; this.gm = ui.gm; this.el = h('div', { class: 'screen', id: 'scr-collection' }); this.scroll = h('div', { class: 'scroll' }); this.el.append(this.scroll); }
@@ -19,7 +20,7 @@ export class CollectionScreen {
       if (!list.length) continue;
       const owned = list.filter((c) => c.owned).length;
       root.append(h('div', { class: 'h1', style: 'margin-top:12px' }, h('span', { class: 'rar r-' + r, style: 'font-size:13px' }, t('rarity')[r]), h('span', { class: 'sub' }, `${owned}/${list.length}`)));
-      root.append(h('div', { class: 'grid' }, list.map((c) => h('button', { class: `cc b-${r} ${c.owned ? '' : 'unknown'} ${s.activeCharacter === c.id ? 'active' : ''}`, onClick: () => this.detail(c) }, h('span', { class: 'e' }, c.emoji), c.owned && c.level > 1 ? h('span', { class: 'lv' }, `★${c.level}`) : null))));
+      root.append(h('div', { class: 'grid' }, list.map((c) => h('button', { class: `cc b-${r} ${c.owned ? '' : 'unknown'} ${s.activeCharacter === c.id ? 'active' : ''}`, onClick: () => this.detail(c) }, charVisual(c, 'e'), c.owned && c.level > 1 ? h('span', { class: 'lv' }, `★${c.level}`) : null))));
     }
   }
   detail(c) {

@@ -6,7 +6,7 @@ const dom = new JSDOM(html, { url: 'http://localhost:8080/', pretendToBeVisual: 
 const { window } = dom;
 const errors = [];
 window.addEventListener('error', (e) => errors.push(e.message));
-for (const [k, v] of Object.entries({ window, document: window.document, navigator: window.navigator, localStorage: window.localStorage, location: window.location, requestAnimationFrame: window.requestAnimationFrame, HTMLElement: window.HTMLElement, devicePixelRatio: 1, confirm: () => true })) Object.defineProperty(globalThis, k, { value: v, configurable: true, writable: true });
+for (const [k, v] of Object.entries({ window, document: window.document, navigator: window.navigator, localStorage: window.localStorage, location: window.location, requestAnimationFrame: window.requestAnimationFrame, HTMLElement: window.HTMLElement, Image: window.Image, devicePixelRatio: 1, confirm: () => true })) Object.defineProperty(globalThis, k, { value: v, configurable: true, writable: true });
 window.HTMLCanvasElement.prototype.getContext = () => ({ clearRect() {}, fillRect() {}, save() {}, restore() {}, translate() {}, rotate() {}, globalAlpha: 1 });
 window.navigator.clipboard = { writeText: async () => {} };
 const origErr = console.error; console.error = (...a) => { errors.push(a.join(' ')); origErr(...a); };
@@ -41,7 +41,7 @@ assert(r && r.character, 'chest opened: ' + r?.character?.id + ' ' + r?.rarity);
 assert(document.querySelector('.modal .reveal'), 'chest reveal modal shown');
 ui.closeModal();
 // collection screen
-ui.go('collection'); assert(document.querySelectorAll('.cc').length === 63, 'collection shows 63 cards'); ui.go('home');
+ui.go('collection'); assert(document.querySelectorAll('.cc').length === 100, 'collection shows 100 cards'); ui.go('home');
 ui.go('chest'); assert(document.querySelectorAll('.pity').length === 4, 'pity text for 4 chests'); ui.go('home');
 ui.go('quests'); assert(document.querySelectorAll('.q').length === 3, '3 daily quests');
 const d = gm.daily.claim(); assert(d && d.day === 1, 'daily day1 claimed'); ui.closeModal(); ui.go('home');

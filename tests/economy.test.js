@@ -7,7 +7,7 @@ import { coinsPerTap, coinsPerSecond, tapUpgradeCost, autoUpgradeCost, prestigeP
 
 test('characters: counts per rarity', () => {
   const n = (r) => CHARACTERS.filter((c) => c.rarity === r && c.unlockCondition.type !== 'event').length;
-  assert.equal(n('common'), 30); assert.equal(n('rare'), 15); assert.equal(n('epic'), 10); assert.equal(n('legendary'), 5); assert.equal(n('mythic'), 3);
+  assert.equal(n('common'), 47); assert.equal(n('rare'), 25); assert.equal(n('epic'), 16); assert.equal(n('legendary'), 8); assert.equal(n('mythic'), 4);
   assert.equal(new Set(CHARACTERS.map((c) => c.id)).size, CHARACTERS.length, 'unique ids');
 });
 
@@ -37,8 +37,8 @@ test('prestige: threshold and points formula', () => {
 test('collection bonus tiers', () => {
   const s = createDefaultState(0);
   assert.equal(collectionProgress(s).bonus, 0);
-  CHARACTERS.slice(0, 32).forEach((c) => (s.characters[c.id] = 1)); assert.equal(collectionProgress(s).bonus, 0.25);
-  CHARACTERS.forEach((c) => (s.characters[c.id] = 1)); assert.equal(collectionProgress(s).bonus, 1.0);
+  CHARACTERS.filter((c) => c.unlockCondition.type !== 'event').slice(0, 50).forEach((c) => (s.characters[c.id] = 1)); assert.equal(collectionProgress(s).bonus, 0.25);
+  CHARACTERS.forEach((c) => (s.characters[c.id] = 1)); assert.equal(collectionProgress(s).bonus, 1.0); assert.equal(collectionProgress(s).total, 100);
 });
 
 test('chest cost grows and chest weights sum to 100', () => {
@@ -51,4 +51,24 @@ test('time to first chest (100 coins) under 60s of active play', () => {
   const s = createDefaultState(0); let coins = 0, tsec = 0;
   while (coins < 100 && tsec < 120) { coins += coinsPerTap(s, 0) * 3 + coinsPerSecond(s, 0); tsec++; const c = tapUpgradeCost(s.tapLevel); if (coins >= c + 20 && s.tapLevel < 3) { coins -= c; s.tapLevel++; } }
   assert.ok(tsec <= 60, `first chest at ${tsec}s`);
+});
+
+test('luck track: locked before prestige, capped, raises crit chance', async () => {
+  const { UpgradeSystem } = await import('../src/game/UpgradeSystem.js');
+  const { critChance } = await import('../src/game/Economy.js');
+  const s = createDefaultState(0); s.coins = 1e12; const gm = { state: s, analytics: { track() {} }, quests: { progress() {} } };
+  const u = new UpgradeSystem(gm);
+  assert.equal(u.buy('luck'), false, 'locked before prestige');
+  s.prestige.count = 1; assert.ok(u.buy('luck')); assert.ok(critChance(s) > BALANCE.critChance);
+  for (let i = 0; i < 40; i++) u.buy('luck'); assert.equal(s.luckLevel, BALANCE.luckMaxLevel);
+});
+
+test('zone bonuses apply to offline & auto', async () => {
+  const { OfflineSystem } = await import('../src/game/OfflineSystem.js');
+  const s = createDefaultState(0); s.autoLevel = 10; s.lastSeen = 1000; const gm = { state: s, now: () => 3600e3 };
+  const off = new OfflineSystem(gm);
+  const base = off.compute(s, 3600e3).coins;
+  s.prestige.count = 10; const cosmic = off.compute(s, 3600e3).coins;
+  assert.ok(cosmic > base * 3, `zone 10 should be much better: ${base} → ${cosmic}`);
+  assert.equal(off.compute(s, 3600e3).capSec, 12 * 3600);
 });
