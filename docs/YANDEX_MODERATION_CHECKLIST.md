@@ -66,5 +66,8 @@
 - ✅ Smoke-тест: 0 ошибок при полном прогоне (`node tests/smoke.jsdom.mjs`).
 - 🔎 Прогнать в браузере с реальным SDK через debug-панель — console должен быть чистым.
 
+## Share (Phase 5)
+- ✅ Share-карточка генерируется на canvas из собственных ассетов; Web Share API → clipboard(image) → download; текст — через `ysdk.clipboard.writeText`. Только по кнопке игрока.
+
 ## Промоматериалы
 - ⚙️ Иконка 512×512, обложка, ≥ 3 скриншота — по `STORE_ASSETS.md`. Только оригинальный арт.

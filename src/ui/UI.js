@@ -67,7 +67,18 @@ export class UI {
     document.body.append(m); this._modal = m;
   }
   closeModal() { if (!this._modal) return; this._modal.remove(); this._modal = null; bus.emit('modal_closed'); }
-  async share(charId) { const how = await this.gm.share(charId); if (how === 'clipboard') this.toast(t('copied')); }
+  async share(charId) {
+    const { CHARACTER_MAP } = await import('../config/characters.js'); const { renderShareCard, shareImage } = await import('./ShareCard.js');
+    const c = CHARACTER_MAP[charId]; if (!c) return; const s = this.gm.state;
+    let art = null; try { if (c.asset) { art = new Image(); art.src = c.asset; await new Promise((r, j) => { art.onload = r; art.onerror = j; }); } } catch { art = null; }
+    const blob = await renderShareCard(c, { level: s.characters[charId] || 1, collectionPct: this.gm.collection.progress().pct, prestige: s.prestige.points, art });
+    const url = URL.createObjectURL(blob);
+    this.modal(h('div', { class: 'box' }, h('img', { src: url, style: 'width:100%;border-radius:14px;max-height:55vh;object-fit:contain' }),
+      h('div', { class: 'stack' },
+        h('button', { class: 'btn', onClick: async () => { const how = await shareImage(blob); const how2 = await this.gm.share(charId); this.gm.analytics.track('share_image', { character_id: charId, method: how }); if (how === 'clipboard_image' || how2 === 'clipboard') this.toast(t('copied')); if (how !== 'cancel') this.closeModal(); } }, '📤 ' + t('share')),
+        h('button', { class: 'btn ghost', onClick: () => this.closeModal() }, '✕'))), { closable: true });
+    bus.once('modal_closed', () => URL.revokeObjectURL(url));
+  }
   confetti(level) { const p = this.screens.home.particles, r = this.frame.getBoundingClientRect(); const colors = ['#ffcc33', '#ff5fa2', '#4ade80', '#3b82f6', '#a855f7']; for (let i = 0; i < 4 + level * 3; i++) setTimeout(() => p.burst(Math.random() * r.width, Math.random() * r.height * 0.5, 12, colors[i % colors.length], 1.4), i * 60); }
 
   /** Offline modal — показывается до первого тапа, если есть что забирать */

@@ -4,7 +4,8 @@ import { fmt } from '../core/format.js';
 import { bus } from '../core/EventBus.js';
 import { CHARACTER_MAP } from '../config/characters.js';
 import { BALANCE, rarityIndex } from '../config/balance.js';
-import { coinsPerSecond, coinsPerTap, currentZone, prestigePreview } from '../game/Economy.js';
+import { coinsPerSecond, coinsPerTap, currentZone, prestigePreview, zoneName } from '../game/Economy.js';
+import { getLang } from '../config/i18n.js';
 import { Particles } from './Particles.js';
 import { TimeManager } from '../core/TimeManager.js';
 import { charVisual } from './Art.js';
@@ -115,7 +116,7 @@ export class MainScreen {
     const s = this.gm.state, c = CHARACTER_MAP[s.activeCharacter] || CHARACTER_MAP[BALANCE.starterCharacterId], z = currentZone(s);
     this.charBtn.className = 'charBtn ' + c.rarity; clear(this.charBtn).append(charVisual(c));
     this.charName.textContent = tr(c.name) + (s.characters[c.id] > 1 ? ` ★${s.characters[c.id]}` : '');
-    this.zoneEl.textContent = `${z.emoji} ${t('zone')}: ${z.name}` + (s.prestige.count ? ` · ⭐${s.prestige.points} (x${(1 + s.prestige.points * BALANCE.prestigeMultPerPoint).toFixed(1)})` : '');
+    this.zoneEl.textContent = `${z.emoji} ${t('zone')}: ${zoneName(z, getLang())}` + (s.prestige.count ? ` · ⭐${s.prestige.points} (x${(1 + s.prestige.points * BALANCE.prestigeMultPerPoint).toFixed(1)})` : '');
     this.renderUpgrades(); this.renderBoosts(); this.ui.renderTop();
     // chest badge: можно открыть?
     const can = this.gm.chests.canOpen('basic') || this.gm.monetization.isRewardedAvailable('free_chest') && s.flags.firstChest;

@@ -2,6 +2,7 @@ import { h, clear } from './dom.js';
 import { t, tr } from '../config/i18n.js';
 import { PRODUCTS } from '../config/products.js';
 import { TimeManager } from '../core/TimeManager.js';
+import { LANGS, getLang } from '../config/i18n.js';
 
 const ICON = { remove_ads: '🚫', starter_pack: '🎒', gems_small: '💎', gems_medium: '💎💎', gems_large: '💰', premium_pack: '👑' };
 
@@ -31,7 +32,7 @@ export class ShopScreen {
     root.append(h('div', { class: 'h1', style: 'font-size:14px;margin-top:10px' }, '⚙️ ' + t('settings')));
     root.append(h('div', { class: 'card' },
       h('div', { class: 'set' }, t('sound'), h('button', { class: 'toggle' + (s.settings.sound ? ' on' : ''), onClick: (e) => { s.settings.sound = !s.settings.sound; this.ui.sound.enabled = s.settings.sound; e.currentTarget.classList.toggle('on'); gm.save(); } })),
-      h('div', { class: 'set' }, t('lang'), h('button', { class: 'btn ghost sm', onClick: () => { s.settings.lang = s.settings.lang === 'en' ? 'ru' : 'en'; gm.save(true); location.reload(); } }, s.settings.lang || '(auto)')),
+      h('div', { class: 'set' }, t('lang'), h('button', { class: 'btn ghost sm', onClick: () => { s.settings.lang = LANGS[(LANGS.indexOf(getLang()) + 1) % LANGS.length]; gm.save(true); location.reload(); } }, getLang().toUpperCase())),
       h('div', { class: 'set small muted' }, `${t('stats')}: ${t('taps')} ${s.stats.taps} · ${t('chestsOpened')} ${s.stats.chests} · ${t('prestiges')} ${s.stats.prestiges} · ${TimeManager.fmtDuration((Date.now() - s.createdAt) / 1000)}`),
     ));
   }

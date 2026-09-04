@@ -2,7 +2,8 @@ import { h, clear } from './dom.js';
 import { t } from '../config/i18n.js';
 import { fmt } from '../core/format.js';
 import { BALANCE } from '../config/balance.js';
-import { currentZone } from '../game/Economy.js';
+import { currentZone, zoneName } from '../game/Economy.js';
+import { getLang } from '../config/i18n.js';
 
 export class PrestigeScreen {
   constructor(ui) { this.ui = ui; this.gm = ui.gm; this.el = h('div', { class: 'screen', id: 'scr-prestige' }); this.scroll = h('div', { class: 'scroll' }); this.el.append(this.scroll); setInterval(() => { if (this.el.classList.contains('active')) this.render(); }, 500); }
@@ -21,7 +22,7 @@ export class PrestigeScreen {
         h('div', { class: 'small', style: 'color:var(--accent2)' }, '🔄 ' + t('prestigeLose')),
         h('button', { class: 'btn', disabled: !p.can || p.points <= 0, onClick: () => this.confirm(p) }, t('prestigeDo')))));
     const zb = (b) => [b.offlineEfficiency && `${t('zbOffline')} ${Math.round(b.offlineEfficiency * 100)}%`, b.autoMult && `${t('zbAuto')} x${b.autoMult}`, b.critMult && `${t('zbCrit')} x${b.critMult}`, b.offlineCapSec && `${t('zbCap')} ${b.offlineCapSec / 3600}h`].filter(Boolean).join(' · ') || '—';
-    root.append(h('div', { class: 'card' }, h('b', {}, `${z.emoji} ${t('zone')}: ${z.name}`), h('div', { class: 'small', style: 'color:var(--green)' }, `${t('zoneBonus')}: ${zb(z.bonus || {})}`), nextZone ? h('div', { class: 'muted' }, `→ ${nextZone.emoji} ${nextZone.name} (${nextZone.at} ⭐): ${zb(nextZone.bonus || {})}`) : null,
+    root.append(h('div', { class: 'card' }, h('b', {}, `${z.emoji} ${t('zone')}: ${zoneName(z, getLang())}`), h('div', { class: 'small', style: 'color:var(--green)' }, `${t('zoneBonus')}: ${zb(z.bonus || {})}`), nextZone ? h('div', { class: 'muted' }, `→ ${nextZone.emoji} ${zoneName(nextZone, getLang())} (${nextZone.at} ⭐): ${zb(nextZone.bonus || {})}`) : null,
       h('div', { class: 'muted', style: 'margin-top:6px' }, `${t('prestiges')}: ${s.prestige.count} · ⭐ ${s.prestige.points}`)));
   }
   confirm(p) {

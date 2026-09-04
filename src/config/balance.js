@@ -75,11 +75,12 @@ export const BALANCE = {
   prestigePointsDivisor: 20_000_000,
   prestigeMultPerPoint: 0.25,     // +25% за 1 PP (постоянно)
   prestigeZones: [                 // зона по числу prestige
-    { at: 0, name: 'Гараж',            emoji: '🏚️', bonus: {} },
-    { at: 1, name: 'Подвал Мемов',     emoji: '🕳️', bonus: { offlineEfficiency: 0.7 } },
-    { at: 3, name: 'Фабрика',          emoji: '🏭', bonus: { offlineEfficiency: 0.8, autoMult: 1.25 } },
-    { at: 6, name: 'Мем-Лаборатория',  emoji: '🧪', bonus: { offlineEfficiency: 0.9, autoMult: 1.5, critMult: 1.5 } },
-    { at: 10, name: 'Космос Брейнрота', emoji: '🚀', bonus: { offlineEfficiency: 1.0, autoMult: 2, critMult: 2, offlineCapSec: 12 * 3600 } },
+    // name: RU; nameEn используется для всех не-RU локалей
+    { at: 0, name: 'Гараж',            nameEn: 'Garage',        emoji: '🏚️', bonus: {} },
+    { at: 1, name: 'Подвал Мемов',     nameEn: 'Meme Basement', emoji: '🕳️', bonus: { offlineEfficiency: 0.7 } },
+    { at: 3, name: 'Фабрика',          nameEn: 'Factory',       emoji: '🏭', bonus: { offlineEfficiency: 0.8, autoMult: 1.25 } },
+    { at: 6, name: 'Мем-Лаборатория',  nameEn: 'Meme Lab',      emoji: '🧪', bonus: { offlineEfficiency: 0.9, autoMult: 1.5, critMult: 1.5 } },
+    { at: 10, name: 'Космос Брейнрота', nameEn: 'Brainrot Space', emoji: '🚀', bonus: { offlineEfficiency: 1.0, autoMult: 2, critMult: 2, offlineCapSec: 12 * 3600 } },
   ],
 
   // ---------- OFFLINE ----------

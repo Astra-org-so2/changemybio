@@ -81,6 +81,7 @@ export function currentZone(state) {
   for (const zone of B.prestigeZones) if (state.prestige.count >= zone.at) z = zone;
   return z;
 }
+export const zoneName = (z, lang) => (lang === 'ru' ? z.name : z.nameEn || z.name);
 
 export function rarest(state) {
   let best = null;
