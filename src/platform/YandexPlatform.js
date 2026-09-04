@@ -15,6 +15,7 @@ export class YandexPlatform {
     if (!window.YaGames) throw new Error('YaGames not found');
     this.ysdk = await window.YaGames.init();
     try { this.player = await this.ysdk.getPlayer(); } catch (e) { console.warn('[YSDK] getPlayer failed', e); }
+    this.signed = false; // включается через enableSignedPayments() до первой покупки
     try { this.payments = await this.ysdk.getPayments(); } catch (e) { this.payments = null; /* покупки не подключены */ }
     return this;
   }
@@ -52,6 +53,7 @@ export class YandexPlatform {
     });
   }
 
+  async enableSignedPayments() { try { this.payments = await this.ysdk.getPayments({ signed: true }); this.signed = true; } catch { this.signed = false; } }
   get paymentsAvailable() { return !!this.payments; }
   async getCatalog() { return this.payments ? this.payments.getCatalog() : []; }
   async getPurchases() { return this.payments ? this.payments.getPurchases() : []; }

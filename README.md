@@ -52,6 +52,9 @@ npm run zip        # → brainrot-factory.zip для загрузки в Кон�
 6. Открыть черновик с `?debug-mode=16`, проверить индикатор SDK `IT`, чистую консоль, реальный rewarded/interstitial, тестовую покупку и её consume.
 7. Загрузить промо по `docs/STORE_ASSETS.md`, пройти `docs/YANDEX_MODERATION_CHECKLIST.md`, отправить на модерацию.
 
+## Серверная валидация покупок (опционально)
+См. `server/README.md`. Включается флагом Remote Config `payments_server_url` — без релиза клиента.
+
 ## Локальный запуск с реальным SDK
 Следуй официальной инструкции «Локальный запуск» (проксирование `/sdk.js` через `@yandex-games/sdk-dev-proxy`) — тогда вместо MockPlatform будет реальный `YaGames`.
 

@@ -21,6 +21,8 @@ export const AB_DEFAULTS = {
   // Rewarded
   free_chest_cooldown_sec: '600',
   income_boost_duration_sec: '60',
+  // Серверная валидация покупок (Phase 6). '' = клиентская обработка; URL = POST signature на сервер.
+  payments_server_url: '',
   // Монетизация: офферы
   remove_ads_offer_after_int: '3',     // показать оффер Remove Ads после N-го interstitial (0 = никогда)
   remove_ads_offer_cooldown_sessions: '3',

@@ -28,6 +28,7 @@
 - ✅ После покупки Remove Ads вызывается `adv.hideBannerAdv()` (если sticky-баннер управляется через API в Консоли).
 
 ## Покупки
+- ✅ Опциональная серверная валидация: флаг `payments_server_url` → `getPayments({signed:true})` → HMAC-проверка на сервере (`server/`), double-spend по токену. Без флага — клиентская схема (допустима платформой).
 - ✅ `ysdk.getPayments()` с обработкой недоступности (магазин показывает «Скоро»).
 - ✅ Цена/валюта/иконка — из `getCatalog()` (`priceValue`, `priceCurrencyCode`, `getPriceCurrencyImage`) — п. 1.13.2.
 - ✅ `getPurchases()` при каждом запуске + `consumePurchase()` для consumable — п. 1.13.1.
