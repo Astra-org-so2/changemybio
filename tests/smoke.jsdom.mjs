@@ -44,7 +44,7 @@ ui.closeModal();
 ui.go('collection'); assert(document.querySelectorAll('.cc').length === 100, 'collection shows 100 cards');
 ui.screens.collection.tab = 'ach'; ui.screens.collection.render(); assert(document.querySelectorAll('#scr-collection .q').length === 14, 'achievements tab shows 14 rows'); ui.screens.collection.tab = 'chars'; ui.go('home');
 ui.go('chest'); assert(document.querySelectorAll('.pity').length === 4, 'pity text for 4 chests'); ui.go('home');
-ui.go('quests'); assert(document.querySelectorAll('.q').length === 3, '3 daily quests');
+ui.go('quests'); assert(document.querySelectorAll('#scr-quests .q').length === 3, '3 daily quests');
 const d = gm.daily.claim(); assert(d && d.day === 1, 'daily day1 claimed'); ui.closeModal(); ui.go('home');
 ui.go('shop'); assert(document.querySelectorAll('.prod').length >= 6, 'shop rendered'); ui.go('home');
 ui.go('prestige'); ui.go('home');
