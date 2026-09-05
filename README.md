@@ -1,6 +1,6 @@
 # Brainrot Factory: Tap & Collect
 
-Мемный tap/idle-коллекционер для **Яндекс Игр**. Vanilla JS (ES-modules), DOM UI + Canvas-партиклы, без фреймворков. Прод-бандл ≈ 90 КБ, ноль внешних ассетов.
+Мемный tap/idle-коллекционер для **Яндекс Игр**. Vanilla JS (ES-modules), DOM UI + Canvas-партиклы, без фреймворков. Прод-бандл ≈ 127 КБ JS; арт персонажей (100 WebP, ~1.7 МБ) грузится лениво, стартовая загрузка от него не зависит.
 
 ## Документация
 | Файл | Содержание |
@@ -59,7 +59,7 @@ npm run zip        # → brainrot-factory.zip для загрузки в Кон�
 Следуй официальной инструкции «Локальный запуск» (проксирование `/sdk.js` через `@yandex-games/sdk-dev-proxy`) — тогда вместо MockPlatform будет реальный `YaGames`.
 
 ## Арт
-Персонажи грузятся лениво из `assets/characters/<id>.webp` с фолбэком на emoji (`src/ui/Art.js`). Пайплайн: `tools/art-pipeline.md`. Иконка-концепт: `assets/store/icon_512.png`.
+Все 100 персонажей имеют арт в `assets/characters/<id>.webp` (грузится лениво, фолбэк на emoji при ошибке) (`src/ui/Art.js`). Пайплайн: `tools/art-pipeline.md`. Иконка-концепт: `assets/store/icon_512.png`.
 
 ## Баланс
 Все коэффициенты — в `src/config/balance.js`. После правок запускай `node tools/sweep.mjs v`: смотри `firstChest` (цель 40–60 с), `prestigeAt` (цель 25–35 мин), `maxGap` (максимальная пауза между апгрейдами, цель < 180 с).
