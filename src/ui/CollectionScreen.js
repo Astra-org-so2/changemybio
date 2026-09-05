@@ -9,7 +9,12 @@ export class CollectionScreen {
   render() {
     const gm = this.gm, s = gm.state, p = gm.collection.progress();
     const root = clear(this.scroll);
+    this.tab = this.tab || 'chars';
     root.append(h('div', { class: 'h1' }, t('collection'), h('span', { class: 'sub' }, `${p.owned}/${p.total} (${pct(p.pct)})`)));
+    root.append(h('div', { class: 'tabs' },
+      h('button', { class: this.tab === 'chars' ? 'on' : '', onClick: () => { this.tab = 'chars'; this.render(); } }, '📒 ' + t('achTab')),
+      h('button', { class: this.tab === 'ach' ? 'on' : '', onClick: () => { this.tab = 'ach'; this.render(); } }, '🏆 ' + t('achievements'))));
+    if (this.tab === 'ach') return this.renderAchievements(root);
     root.append(h('div', { class: 'card' },
       h('div', { class: 'row', style: 'justify-content:space-between' }, h('b', {}, t('collBonus')), h('b', { style: 'color:var(--green)' }, `+${Math.round(p.bonus * 100)}% ${t('income')}`)),
       h('div', { class: 'bar', style: 'margin:8px 0' }, h('i', { style: `width:${p.pct * 100}%` })),
@@ -21,6 +26,22 @@ export class CollectionScreen {
       const owned = list.filter((c) => c.owned).length;
       root.append(h('div', { class: 'h1', style: 'margin-top:12px' }, h('span', { class: 'rar r-' + r, style: 'font-size:13px' }, t('rarity')[r]), h('span', { class: 'sub' }, `${owned}/${list.length}`)));
       root.append(h('div', { class: 'grid' }, list.map((c) => h('button', { class: `cc b-${r} ${c.owned ? '' : 'unknown'} ${s.activeCharacter === c.id ? 'active' : ''}`, onClick: () => this.detail(c) }, charVisual(c, 'e'), c.owned && c.level > 1 ? h('span', { class: 'lv' }, `★${c.level}`) : null))));
+    }
+  }
+  renderAchievements(root) {
+    const list = this.gm.achievements.list(), pctAll = this.gm.achievements.progressPct();
+    root.append(h('div', { class: 'card' },
+      h('div', { class: 'row', style: 'justify-content:space-between' }, h('b', {}, t('achievements')), h('b', {}, `${Math.round(pctAll * 100)}%`)),
+      h('div', { class: 'bar', style: 'margin-top:8px' }, h('i', { style: `width:${pctAll * 100}%` }))));
+    for (const a of list) {
+      const w = a.complete ? 1 : Math.min(1, a.value / a.target);
+      root.append(h('div', { class: 'card q' + (a.complete ? ' ach-done' : '') },
+        h('div', { class: 'ach-ic' }, a.icon),
+        h('div', { class: 'qi' },
+          h('b', {}, tr(a.name), h('span', { class: 'muted', style: 'font-weight:400' }, ` ${a.done}/${a.total}`)),
+          h('div', { class: 'muted' }, a.complete ? t('achAll') : `${fmt(Math.min(a.value, a.target))} / ${fmt(a.target)}`),
+          h('div', { class: 'bar' }, h('i', { style: `width:${w * 100}%` }))),
+        a.complete ? h('span', {}, '🏆') : h('span', { class: 'muted small' }, `+${a.gems} 💎`)));
     }
   }
   detail(c) {

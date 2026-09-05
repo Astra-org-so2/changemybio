@@ -1,5 +1,5 @@
 import { h, clear, $ } from './dom.js';
-import { t } from '../config/i18n.js';
+import { t, tr } from '../config/i18n.js';
 import { fmt } from '../core/format.js';
 import { bus } from '../core/EventBus.js';
 import { TimeManager } from '../core/TimeManager.js';
@@ -32,6 +32,7 @@ export class UI {
     this.frame = h('div', { class: 'frame' }, top, scr, nav);
     clear(this.root).append(this.frame);
     bus.on('toast', (p) => this.toast(p.text || t(p.key)));
+    bus.on('achievements', (list) => { for (const u of list.slice(0, 3)) this.toast(`${u.a.icon} ${t('achUnlocked')}: ${tr(u.a.name)} ${u.tier}/${u.a.tiers.length} · +${u.gems} 💎`); this.sound.reward(); });
     bus.on('offer', (o) => this.showOffer(o));
     this.go('home'); this.renderTop(); this.screens.quests.updateDot();
     // Перфоманс-адаптация: если FPS проседает — уменьшаем партиклы

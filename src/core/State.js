@@ -18,7 +18,8 @@ export function createDefaultState(now) {
     activeCharacter: BALANCE.starterCharacterId,
     prestige: { count: 0, points: 0 },
     chests: { opened: {}, pity: {}, costIndex: { basic: 0 } }, // per type counters
-    daily: { streak: 0, lastClaimDay: null, lastClaimTs: 0 },
+    daily: { streak: 0, lastClaimDay: null, lastClaimTs: 0, totalClaims: 0 },
+    achievements: {},        // id → число полученных ступеней
     quests: { day: null, list: [] },
     stats: { taps: 0, chests: 0, upgrades: 0, prestiges: 0, adsWatched: 0, interstitials: 0, maxCombo: 0, sessions: 0, rarest: null },
     boosts: {},              // id -> expiresAt (ms)

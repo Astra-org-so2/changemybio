@@ -173,3 +173,10 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;min-he
 .toggle.on::after{left:25px}
 .small{font-size:12px}
 .pity{font-size:11px;color:var(--accent);font-weight:700}
+
+/* достижения */
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;min-height:44px;border:0;border-radius:12px;background:var(--panel);color:var(--muted);font-weight:700;font-size:14px}
+.tabs button.on{background:var(--accent);color:#fff}
+.ach-ic{font-size:28px;width:40px;text-align:center;flex:none}
+.ach-done{opacity:.75}

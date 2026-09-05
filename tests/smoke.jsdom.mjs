@@ -41,7 +41,8 @@ assert(r && r.character, 'chest opened: ' + r?.character?.id + ' ' + r?.rarity);
 assert(document.querySelector('.modal .reveal'), 'chest reveal modal shown');
 ui.closeModal();
 // collection screen
-ui.go('collection'); assert(document.querySelectorAll('.cc').length === 100, 'collection shows 100 cards'); ui.go('home');
+ui.go('collection'); assert(document.querySelectorAll('.cc').length === 100, 'collection shows 100 cards');
+ui.screens.collection.tab = 'ach'; ui.screens.collection.render(); assert(document.querySelectorAll('#scr-collection .q').length === 14, 'achievements tab shows 14 rows'); ui.screens.collection.tab = 'chars'; ui.go('home');
 ui.go('chest'); assert(document.querySelectorAll('.pity').length === 4, 'pity text for 4 chests'); ui.go('home');
 ui.go('quests'); assert(document.querySelectorAll('.q').length === 3, '3 daily quests');
 const d = gm.daily.claim(); assert(d && d.day === 1, 'daily day1 claimed'); ui.closeModal(); ui.go('home');

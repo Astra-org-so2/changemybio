@@ -14,6 +14,7 @@ export const STRINGS = {
     buy: 'Купить', owned: 'Куплено', removeAds: 'Без рекламы', purchaseOk: 'Покупка успешна!', purchaseFail: 'Покупка не выполнена',
     zone: 'Зона', combo: 'КОМБО', crit: 'КРИТ!', superCrit: 'СУПЕР КРИТ!!!', mult: 'Множитель', income: 'Доход',
     tapHint: 'Нажми на персонажа!', upgradeHint: 'Улучши силу тапа ↓', chestHint: 'Открой первый сундук!',
+    achievements: 'Достижения', achUnlocked: 'Достижение', achAll: 'Все ступени закрыты', achTab: 'Персонажи',
     total: 'Всего', rarity: { common: 'Обычный', rare: 'Редкий', epic: 'Эпический', legendary: 'Легендарный', mythic: 'Мифический' },
     shareText: 'Я открыл {r} «{n}» в Brainrot Factory! А какой у тебя самый редкий брейнрот? 🧠',
     sound: 'Звук', lang: 'Язык', settings: 'Настройки', ads: 'Реклама', cooldown: 'Через {t}',
@@ -34,6 +35,7 @@ export const STRINGS = {
     buy: 'Buy', owned: 'Owned', removeAds: 'No Ads', purchaseOk: 'Purchase successful!', purchaseFail: 'Purchase failed',
     zone: 'Zone', combo: 'COMBO', crit: 'CRIT!', superCrit: 'SUPER CRIT!!!', mult: 'Multiplier', income: 'Income',
     tapHint: 'Tap the character!', upgradeHint: 'Upgrade tap power ↓', chestHint: 'Open your first chest!',
+    achievements: 'Achievements', achUnlocked: 'Achievement', achAll: 'All tiers done', achTab: 'Characters',
     total: 'Total', rarity: { common: 'Common', rare: 'Rare', epic: 'Epic', legendary: 'Legendary', mythic: 'Mythic' },
     shareText: 'I unlocked {r} "{n}" in Brainrot Factory! What is your rarest brainrot? 🧠',
     sound: 'Sound', lang: 'Language', settings: 'Settings', ads: 'Ads', cooldown: 'In {t}',
@@ -54,6 +56,7 @@ export const tr = (obj) => (obj && (obj[lang] ?? obj.en ?? obj.ru)) || '';
 
 // ---- Дополнительные локали (Phase 5). Отсутствующие ключи автоматически берутся из EN. ----
 STRINGS.tr = {
+  achievements: 'Başarımlar', achUnlocked: 'Başarım', achAll: 'Tüm kademeler tamam', achTab: 'Karakterler',
   tap: 'DOKUN!', power: 'Güç', auto: 'Oto', upgrade: 'Geliştir', lvl: 'Sv.', collection: 'Koleksiyon', chest: 'Sandıklar', shop: 'Mağaza', home: 'Oyun', quests: 'Görevler', prestige: 'Prestij',
   perSec: '/sn', perTap: '/dokunuş', away: 'Sen yokken…', awayFor: 'Uzak kaldın', claim: 'Al', claimX2: 'x2 Al 📺', open: 'Aç', openFree: 'Ücretsiz 📺', pity: 'Garanti', pityIn: '{n} açılışta {r} garanti',
   chances: 'Şans', newChar: 'YENİ!', dup: 'Tekrar → +seviye', share: 'Paylaş', copied: 'Kopyalandı!', collBonus: 'Koleksiyon bonusu', collected: 'Toplandı', unknown: '???',
@@ -66,6 +69,7 @@ STRINGS.tr = {
   shortcutTitle: 'Kısayol ekle?', shortcutText: 'Tek dokunuşla geri dön ve {n} 💎 kazan', later: 'Sonra', offerAdsNote: 'Ödüllü videolar kullanılabilir kalır', luck: 'Şans', zoneBonus: 'Bölge bonusu', zbOffline: 'çevrimdışı gelir', zbAuto: 'oto gelir', zbCrit: 'kritik gücü', zbCap: 'çevrimdışı en fazla', shareCta: 'Yandex Games\'te oyna → Brainrot Factory',
 };
 STRINGS.es = {
+  achievements: 'Logros', achUnlocked: 'Logro', achAll: 'Todos los niveles', achTab: 'Personajes',
   tap: '¡TOCA!', power: 'Poder', auto: 'Auto', upgrade: 'Mejorar', lvl: 'Nv.', collection: 'Colección', chest: 'Cofres', shop: 'Tienda', home: 'Juego', quests: 'Misiones', prestige: 'Prestigio',
   perSec: '/seg', perTap: '/toque', away: 'Mientras no estabas…', awayFor: 'Estuviste fuera', claim: 'Recoger', claimX2: 'Recoger x2 📺', open: 'Abrir', openFree: 'Gratis 📺', pity: 'Garantía', pityIn: '{r} garantizado en {n}',
   chances: 'Probabilidades', newChar: '¡NUEVO!', dup: 'Repetido → +nivel', share: 'Compartir', copied: '¡Copiado!', collBonus: 'Bono de colección', collected: 'Coleccionado', unknown: '???',

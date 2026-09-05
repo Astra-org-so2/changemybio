@@ -15,6 +15,7 @@ import { ChestSystem } from '../game/ChestSystem.js';
 import { PrestigeSystem } from '../game/PrestigeSystem.js';
 import { CollectionSystem } from '../game/CollectionSystem.js';
 import { QuestSystem } from '../game/QuestSystem.js';
+import { AchievementSystem } from '../game/AchievementSystem.js';
 import { DailySystem } from '../game/DailySystem.js';
 import { OfflineSystem } from '../game/OfflineSystem.js';
 import { EventSystem } from '../game/EventSystem.js';
@@ -38,6 +39,8 @@ export class GameManager {
     this.prestige = new PrestigeSystem(this);
     this.collection = new CollectionSystem(this);
     this.quests = new QuestSystem(this);
+    this.achievements = new AchievementSystem(this);
+    for (const ev of ['chest_result', 'prestige', 'quests']) bus.on(ev, () => this.achievements.check());
     this.daily = new DailySystem(this);
     this.offline = new OfflineSystem(this);
     this.events = new EventSystem(this);
@@ -95,6 +98,7 @@ export class GameManager {
     bus.emit('tick', { cps, cpt: coinsPerTap(s, now) });
     if (performance.now() - this._lastSave > AUTOSAVE_MS) { this.save(); }
     if ((s.stats.taps & 63) === 0) this.analytics.tickRetention(s);
+    if (performance.now() - (this._lastAch || 0) > 5000) { this._lastAch = performance.now(); this.achievements.check(); }
     if (performance.now() - (this._lastLb || 0) > 90_000) { this._lastLb = performance.now(); this.submitScores(); }
   }
 

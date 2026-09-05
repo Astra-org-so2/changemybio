@@ -26,7 +26,7 @@ export class DailySystem {
     const st = this.status(); if (!st.canClaim) return null;
     const s = this.gm.state, now = this.gm.now();
     const reward = this.rewardFor(st.day);
-    s.daily.streak = st.day; s.daily.lastClaimDay = TimeManager.dayKey(now); s.daily.lastClaimTs = now;
+    s.daily.streak = st.day; s.daily.lastClaimDay = TimeManager.dayKey(now); s.daily.lastClaimTs = now; s.daily.totalClaims = (s.daily.totalClaims || 0) + 1;
     this.gm.addCoins(reward.coins, 'daily'); this.gm.addGems(reward.gems, 'daily');
     let chestResult = null;
     if (reward.chest) chestResult = this.gm.chests.open(reward.chest, 'daily');
